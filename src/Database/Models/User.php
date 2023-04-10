@@ -2,20 +2,22 @@
 
 namespace NextDeveloper\Account\Database\Models;
 
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Model;
+use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Account\Database\Observers\UserObserver;
-use NextDeveloper\Commons\Database\Traits\UuidId;
 
 /**
  * Class User.
  *
  * @package NextDeveloper\Account\Database\Models
  */
-class User extends Model
+class User extends Authenticatable
 {
     use Filterable, UuidId;
+    use HasApiTokens, Notifiable;
     
     protected $table = 'users';
 
