@@ -1,6 +1,6 @@
 <?php
 
-namespace NextDeveloper\Account\Database\Filters;
+namespace NextDeveloper\Accounts\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
@@ -26,4 +26,14 @@ class AccountTypeQueryFilter extends AbstractQueryFilter
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
 
+    public function countryId($value)
+    {
+        $country = Country::where('uuid', $value)->first();
+
+        if($country) {
+            return $this->builder->where('country_id', '=', $country->id);
+        }
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

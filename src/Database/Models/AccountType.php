@@ -1,23 +1,27 @@
 <?php
 
-namespace NextDeveloper\Account\Database\Models;
+namespace NextDeveloper\Accounts\Database\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\Account\Database\Observers\AccountTypeObserver;
+use NextDeveloper\Accounts\Database\Observers\AccountTypeObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 
 /**
  * Class AccountType.
  *
- * @package NextDeveloper\Account\Database\Models
+ * @package NextDeveloper\Accounts\Database\Models
  */
 class AccountType extends Model
 {
     use Filterable, UuidId;
     
+
+    public $timestamps = false;
+
     protected $table = 'account_types';
+
 
     /**
      * @var array
@@ -44,9 +48,10 @@ class AccountType extends Model
      */
     protected $casts = [
         'id'          => 'integer',
-		'id_ref'      => 'string',
+		'uuid'        => 'string',
 		'name'        => 'string',
 		'description' => 'string',
+		'country_id'  => 'integer',
     ];
 
     /**
@@ -79,4 +84,11 @@ class AccountType extends Model
         //  We create and add Observer even if we wont use it.
         parent::observe(AccountTypeObserver::class);
     }
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

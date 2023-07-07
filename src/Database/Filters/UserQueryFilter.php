@@ -1,6 +1,6 @@
 <?php
 
-namespace NextDeveloper\Account\Database\Filters;
+namespace NextDeveloper\Accounts\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
@@ -26,24 +26,19 @@ class UserQueryFilter extends AbstractQueryFilter
         return $this->builder->where('surname', 'like', '%' . $value . '%');
     }
     
-    public function fullname($value)
-    {
-        return $this->builder->where('fullname', 'like', '%' . $value . '%');
-    }
-    
     public function email($value)
     {
         return $this->builder->where('email', 'like', '%' . $value . '%');
     }
     
+    public function fullname($value)
+    {
+        return $this->builder->where('fullname', 'like', '%' . $value . '%');
+    }
+    
     public function username($value)
     {
         return $this->builder->where('username', 'like', '%' . $value . '%');
-    }
-    
-    public function password($value)
-    {
-        return $this->builder->where('password', 'like', '%' . $value . '%');
     }
     
     public function about($value)
@@ -56,39 +51,11 @@ class UserQueryFilter extends AbstractQueryFilter
         return $this->builder->where('nin', 'like', '%' . $value . '%');
     }
     
-    public function cellPhoneCode($value)
-    {
-        return $this->builder->where('cell_phone_code', 'like', '%' . $value . '%');
-    }
-    
     public function cellPhone($value)
     {
         return $this->builder->where('cell_phone', 'like', '%' . $value . '%');
     }
-    
-    public function defaultLocale($value)
-    {
-        return $this->builder->where('default_locale', 'like', '%' . $value . '%');
-    }
-    
-    public function iamDn($value)
-    {
-        return $this->builder->where('iam_dn', 'like', '%' . $value . '%');
-    }
 
-    public function iamUid($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-           $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('iam_uid', $operator, $value);
-    }
-    
     public function birthdayStart($date) 
     {
         return $this->builder->where( 'birthday', '>=', $date );
@@ -97,56 +64,6 @@ class UserQueryFilter extends AbstractQueryFilter
     public function birthdayEnd($date) 
     {
         return $this->builder->where( 'birthday', '<=', $date );
-    }
-
-    public function emailVerificationDateStart($date) 
-    {
-        return $this->builder->where( 'email_verification_date', '>=', $date );
-    }
-
-    public function emailVerificationDateEnd($date) 
-    {
-        return $this->builder->where( 'email_verification_date', '<=', $date );
-    }
-
-    public function cellphoneVerificationDateStart($date) 
-    {
-        return $this->builder->where( 'cellphone_verification_date', '>=', $date );
-    }
-
-    public function cellphoneVerificationDateEnd($date) 
-    {
-        return $this->builder->where( 'cellphone_verification_date', '<=', $date );
-    }
-
-    public function ninVerificationDateStart($date) 
-    {
-        return $this->builder->where( 'nin_verification_date', '>=', $date );
-    }
-
-    public function ninVerificationDateEnd($date) 
-    {
-        return $this->builder->where( 'nin_verification_date', '<=', $date );
-    }
-
-    public function passwordLastChangedAtStart($date) 
-    {
-        return $this->builder->where( 'password_last_changed_at', '>=', $date );
-    }
-
-    public function passwordLastChangedAtEnd($date) 
-    {
-        return $this->builder->where( 'password_last_changed_at', '<=', $date );
-    }
-
-    public function passwordExpiryNotificationSentAtStart($date) 
-    {
-        return $this->builder->where( 'password_expiry_notification_sent_at', '>=', $date );
-    }
-
-    public function passwordExpiryNotificationSentAtEnd($date) 
-    {
-        return $this->builder->where( 'password_expiry_notification_sent_at', '<=', $date );
     }
 
     public function createdAtStart($date) 
@@ -169,32 +86,33 @@ class UserQueryFilter extends AbstractQueryFilter
         return $this->builder->where( 'updated_at', '<=', $date );
     }
 
-    public function suspendedAtStart($date) 
+    public function deletedAtStart($date) 
     {
-        return $this->builder->where( 'suspended_at', '>=', $date );
+        return $this->builder->where( 'deleted_at', '>=', $date );
     }
 
-    public function suspendedAtEnd($date) 
+    public function deletedAtEnd($date) 
     {
-        return $this->builder->where( 'suspended_at', '<=', $date );
+        return $this->builder->where( 'deleted_at', '<=', $date );
     }
 
-    public function oldId($value)
+    public function languageId($value)
     {
-        $old = Old::where('id_ref', $value)->first();
+        $language = Language::where('uuid', $value)->first();
 
-        if($old) {
-            return $this->builder->where('old_id', '=', $old->id);
+        if($language) {
+            return $this->builder->where('language_id', '=', $language->id);
         }
     }
 
     public function countryId($value)
     {
-        $country = Country::where('id_ref', $value)->first();
+        $country = Country::where('uuid', $value)->first();
 
         if($country) {
             return $this->builder->where('country_id', '=', $country->id);
         }
     }
 
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

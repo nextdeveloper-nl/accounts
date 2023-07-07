@@ -1,14 +1,14 @@
 <?php
 
-namespace NextDeveloper\Account\Http\Transformers;
+namespace NextDeveloper\Accounts\Http\Transformers;
 
-use NextDeveloper\Account\Database\Models\AccountUser;
+use NextDeveloper\Accounts\Database\Models\AccountUser;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 
 /**
  * Class AccountUserTransformer. This class is being used to manipulate the data we are serving to the customer
  *
- * @package NextDeveloper\Account\Http\Transformers
+ * @package NextDeveloper\Accounts\Http\Transformers
  */
 class AccountUserTransformer extends AbstractTransformer {
 
@@ -24,4 +24,5 @@ class AccountUserTransformer extends AbstractTransformer {
             'account_id'  =>  $model->account_id,
         ]);
     }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

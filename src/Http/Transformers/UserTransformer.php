@@ -1,14 +1,14 @@
 <?php
 
-namespace NextDeveloper\Account\Http\Transformers;
+namespace NextDeveloper\Accounts\Http\Transformers;
 
-use NextDeveloper\Account\Database\Models\User;
+use NextDeveloper\Accounts\Database\Models\User;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 
 /**
  * Class UserTransformer. This class is being used to manipulate the data we are serving to the customer
  *
- * @package NextDeveloper\Account\Http\Transformers
+ * @package NextDeveloper\Accounts\Http\Transformers
  */
 class UserTransformer extends AbstractTransformer {
 
@@ -19,32 +19,23 @@ class UserTransformer extends AbstractTransformer {
      */
     public function transform(User $model) {
         return $this->buildPayload([
-            'id'  =>  $model->id_ref,
-            'old_id'  =>  $model->old_id,
+            'id'  =>  $model->uuid,
             'name'  =>  $model->name,
             'surname'  =>  $model->surname,
-            'fullname'  =>  $model->fullname,
             'email'  =>  $model->email,
+            'fullname'  =>  $model->fullname,
             'username'  =>  $model->username,
-            'password'  =>  $model->password,
             'about'  =>  $model->about,
             'gender'  =>  $model->gender,
             'birthday'  =>  $model->birthday,
             'nin'  =>  $model->nin,
-            'cell_phone_code'  =>  $model->cell_phone_code,
             'cell_phone'  =>  $model->cell_phone,
-            'default_locale'  =>  $model->default_locale,
-            'iam_dn'  =>  $model->iam_dn,
-            'iam_uid'  =>  $model->iam_uid,
+            'language_id'  =>  $model->language_id,
             'country_id'  =>  $model->country_id,
-            'email_verification_date'  =>  $model->email_verification_date,
-            'cellphone_verification_date'  =>  $model->cellphone_verification_date,
-            'nin_verification_date'  =>  $model->nin_verification_date,
-            'password_last_changed_at'  =>  $model->password_last_changed_at,
-            'password_expiry_notification_sent_at'  =>  $model->password_expiry_notification_sent_at,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
-            'suspended_at'  =>  $model->suspended_at,
+            'deleted_at'  =>  $model->deleted_at,
         ]);
     }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

@@ -1,20 +1,20 @@
 <?php
 
-namespace NextDeveloper\Account\Http\Controllers\Account;
+namespace NextDeveloper\Accounts\Http\Controllers\Account;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Generator\Common\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
-use NextDeveloper\Account\Database\Filters\AccountQueryFilter;
-use NextDeveloper\Account\Http\Transformers\AccountTransformer;
-use NextDeveloper\Account\Services\AccountService;
-use NextDeveloper\Account\Http\Requests\Account\AccountCreateRequest;
+use NextDeveloper\Accounts\Http\Requests\Account\AccountUpdateRequest;
+use NextDeveloper\Accounts\Database\Filters\AccountQueryFilter;
+use NextDeveloper\Accounts\Services\AccountService;
+use NextDeveloper\Accounts\Http\Requests\Account\AccountCreateRequest;
 
 class AccountController extends AbstractController
 {
     /**
     * This method returns the list of accounts.
-    *
+    *f
     * optional http params:
     * - paginate: If you set paginate parameter, the result will be returned paginated.
     *
@@ -36,7 +36,8 @@ class AccountController extends AbstractController
     * @throws \Laravel\Octane\Exceptions\DdException
     */
     public function show($ref) {
-        //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file in NextDeveloper Platform Project
+        //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file
+        //  in NextDeveloper Platform Project
         $model = AccountService::getByRef($ref);
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -54,4 +55,35 @@ class AccountController extends AbstractController
 
         return ResponsableFactory::makeResponse($this, $model);
     }
+
+    /**
+    * This method updates Account object on database.
+    *
+    * @param $accountId
+    * @param CountryCreateRequest $request
+    * @return mixed|null
+    * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
+    */
+    public function update($accountId, AccountUpdateRequest $request) {
+        $model = AccountService::update($accountId, $request->validated());
+
+        return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    /**
+    * This method updates Account object on database.
+    *
+    * @param $accountId
+    * @param CountryCreateRequest $request
+    * @return mixed|null
+    * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
+    */
+    public function destroy($accountId) {
+        $model = AccountService::delete($accountId);
+
+        return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

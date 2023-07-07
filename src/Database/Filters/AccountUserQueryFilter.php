@@ -1,6 +1,6 @@
 <?php
 
-namespace NextDeveloper\Account\Database\Filters;
+namespace NextDeveloper\Accounts\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
@@ -18,7 +18,7 @@ class AccountUserQueryFilter extends AbstractQueryFilter
 
     public function userId($value)
     {
-        $user = User::where('id_ref', $value)->first();
+        $user = User::where('uuid', $value)->first();
 
         if($user) {
             return $this->builder->where('user_id', '=', $user->id);
@@ -27,11 +27,12 @@ class AccountUserQueryFilter extends AbstractQueryFilter
 
     public function accountId($value)
     {
-        $account = Account::where('id_ref', $value)->first();
+        $account = Account::where('uuid', $value)->first();
 
         if($account) {
             return $this->builder->where('account_id', '=', $account->id);
         }
     }
 
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

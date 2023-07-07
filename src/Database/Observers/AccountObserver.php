@@ -1,13 +1,13 @@
 <?php
 
-namespace NextDeveloper\Account\Database\Observers;
+namespace NextDeveloper\Accounts\Database\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AccountObserver
- * @package NextDeveloper\Account\Database\Observers
+ * @package NextDeveloper\Accounts\Database\Observers
  */
 class AccountObserver
 {
@@ -109,4 +109,5 @@ class AccountObserver
     public function restored(Model $model)
     {
     }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

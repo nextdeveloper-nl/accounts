@@ -1,23 +1,29 @@
 <?php
 
-namespace NextDeveloper\Account\Database\Models;
+namespace NextDeveloper\Accounts\Database\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\Account\Database\Observers\UserObserver;
+use NextDeveloper\Accounts\Database\Observers\UserObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 
 /**
  * Class User.
  *
- * @package NextDeveloper\Account\Database\Models
+ * @package NextDeveloper\Accounts\Database\Models
  */
 class User extends Model
 {
     use Filterable, UuidId;
+    use SoftDeletes;
     
+
+    public $timestamps = true;
+
     protected $table = 'users';
+
 
     /**
      * @var array
@@ -43,32 +49,22 @@ class User extends Model
      * @var array
      */
     protected $casts = [
-        'id'                                   => 'integer',
-		'id_ref'                               => 'string',
-		'old_id'                               => 'integer',
-		'name'                                 => 'string',
-		'surname'                              => 'string',
-		'fullname'                             => 'string',
-		'email'                                => 'string',
-		'username'                             => 'string',
-		'password'                             => 'string',
-		'about'                                => 'string',
-		'birthday'                             => 'datetime',
-		'nin'                                  => 'string',
-		'cell_phone_code'                      => 'string',
-		'cell_phone'                           => 'string',
-		'default_locale'                       => 'string',
-		'iam_dn'                               => 'string',
-		'iam_uid'                              => 'integer',
-		'country_id'                           => 'integer',
-		'email_verification_date'              => 'datetime',
-		'cellphone_verification_date'          => 'datetime',
-		'nin_verification_date'                => 'datetime',
-		'password_last_changed_at'             => 'datetime',
-		'password_expiry_notification_sent_at' => 'datetime',
-		'created_at'                           => 'datetime',
-		'updated_at'                           => 'datetime',
-		'suspended_at'                         => 'datetime',
+        'id'          => 'integer',
+		'uuid'        => 'string',
+		'name'        => 'string',
+		'surname'     => 'string',
+		'email'       => 'string',
+		'fullname'    => 'string',
+		'username'    => 'string',
+		'about'       => 'string',
+		'birthday'    => 'datetime',
+		'nin'         => 'string',
+		'cell_phone'  => 'string',
+		'language_id' => 'integer',
+		'country_id'  => 'integer',
+		'created_at'  => 'datetime',
+		'updated_at'  => 'datetime',
+		'deleted_at'  => 'datetime',
     ];
 
     /**
@@ -77,14 +73,9 @@ class User extends Model
      */
     protected $dates = [
         'birthday',
-		'email_verification_date',
-		'cellphone_verification_date',
-		'nin_verification_date',
-		'password_last_changed_at',
-		'password_expiry_notification_sent_at',
 		'created_at',
 		'updated_at',
-		'suspended_at',
+		'deleted_at',
     ];
 
     /**
@@ -109,4 +100,11 @@ class User extends Model
         //  We create and add Observer even if we wont use it.
         parent::observe(UserObserver::class);
     }
+
+    public function accountUser()
+    {
+        return $this->hasMany(AccountUser::class);
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

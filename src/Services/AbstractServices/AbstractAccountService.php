@@ -1,22 +1,22 @@
 <?php
 
-namespace NextDeveloper\Account\Services\AbstractServices;
+namespace NextDeveloper\Accounts\Services\AbstractServices;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use NextDeveloper\Account\Database\Models\Account;
-use NextDeveloper\Account\Database\Filters\AccountQueryFilter;
+use NextDeveloper\Accounts\Database\Models\Account;
+use NextDeveloper\Accounts\Database\Filters\AccountQueryFilter;
 
-use NextDeveloper\Account\Events\Account\AccountCreatedEvent;
-use NextDeveloper\Account\Events\Account\AccountCreatingEvent;
+use NextDeveloper\Accounts\Events\Account\AccountCreatedEvent;
+use NextDeveloper\Accounts\Events\Account\AccountCreatingEvent;
 
 /**
 * This class is responsible from managing the data for Account
 *
 * Class AccountService.
 *
-* @package NextDeveloper\Account\Database\Models
+* @package NextDeveloper\Accounts\Database\Models
 */
 class AbstractAccountService {
     public static function get(AccountQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
@@ -97,9 +97,7 @@ class AbstractAccountService {
         event( new AccountCreatingEvent() );
 
         try {
-            $model = Account::create([
-
-            ]);
+            $model = Account::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
@@ -108,4 +106,59 @@ class AbstractAccountService {
 
         return $model;
     }
+
+    /**
+    * This method updated the model from an array.
+    *
+    * Throws an exception if stuck with any problem.
+    *
+    * @param
+    * @param array $data
+    * @return mixed
+    * @throw Exception
+    */
+    public static function update($id, array $data) {
+        $model = Account::where('uuid', $id)->first();
+
+        event( new AccountsUpdateingEvent($model) );
+
+        try {
+           $model = $model->update($data);
+        } catch(\Exception $e) {
+           throw $e;
+        }
+
+        event( new AccountsUpdatedEvent($model) );
+
+        return $model;
+    }
+
+    /**
+    * This method updated the model from an array.
+    *
+    * Throws an exception if stuck with any problem.
+    *
+    * @param
+    * @param array $data
+    * @return mixed
+    * @throw Exception
+    */
+    public static function delete($id, array $data) {
+        $model = Account::where('uuid', $id)->first();
+
+        event( new AccountsDeletingEvent() );
+
+        try {
+            $model = $model->delete();
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+        event( new AccountsDeletedEvent($model) );
+
+        return $model;
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

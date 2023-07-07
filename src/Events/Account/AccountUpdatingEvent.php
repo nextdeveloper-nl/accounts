@@ -1,13 +1,13 @@
 <?php
 
-namespace NextDeveloper\Account\Events\Account;
+namespace NextDeveloper\Accounts\Events\Account;
 
 use Illuminate\Queue\SerializesModels;
-use NextDeveloper\Account\Database\Models\Account;
+use NextDeveloper\Accounts\Database\Models\Account;
 
 /**
  * Class AccountUpdatingEvent
- * @package NextDeveloper\Account\Events
+ * @package NextDeveloper\Accounts\Events
  */
 class AccountUpdatingEvent
 {
@@ -44,4 +44,5 @@ class AccountUpdatingEvent
     public function getTimestamp() {
         return $this->timestamp;
     }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

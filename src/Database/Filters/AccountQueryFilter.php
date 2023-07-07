@@ -1,6 +1,6 @@
 <?php
 
-namespace NextDeveloper\Account\Database\Filters;
+namespace NextDeveloper\Accounts\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
@@ -21,123 +21,14 @@ class AccountQueryFilter extends AbstractQueryFilter
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
     
-    public function domain($value)
+    public function phoneNumber($value)
     {
-        return $this->builder->where('domain', 'like', '%' . $value . '%');
-    }
-    
-    public function phoneCode($value)
-    {
-        return $this->builder->where('phone_code', 'like', '%' . $value . '%');
-    }
-    
-    public function phone($value)
-    {
-        return $this->builder->where('phone', 'like', '%' . $value . '%');
-    }
-    
-    public function currencyCode($value)
-    {
-        return $this->builder->where('currency_code', 'like', '%' . $value . '%');
-    }
-    
-    public function creditCurrencyCode($value)
-    {
-        return $this->builder->where('credit_currency_code', 'like', '%' . $value . '%');
+        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
     }
     
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
-    }
-    
-    public function iamDn($value)
-    {
-        return $this->builder->where('iam_dn', 'like', '%' . $value . '%');
-    }
-    
-    public function taxOffice($value)
-    {
-        return $this->builder->where('tax_office', 'like', '%' . $value . '%');
-    }
-
-    public function balance($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-           $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('balance', $operator, $value);
-    }
-    
-    public function credit($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-           $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('credit', $operator, $value);
-    }
-    
-    public function riskLevel($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-           $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('risk_level', $operator, $value);
-    }
-    
-    public function isTeam()
-    {
-        return $this->builder->where('is_team', true);
-    }
-    
-    public function isCustomer()
-    {
-        return $this->builder->where('is_customer', true);
-    }
-    
-    public function isSupplier()
-    {
-        return $this->builder->where('is_supplier', true);
-    }
-    
-    public function isPartner()
-    {
-        return $this->builder->where('is_partner', true);
-    }
-    
-    public function approvedAtStart($date) 
-    {
-        return $this->builder->where( 'approved_at', '>=', $date );
-    }
-
-    public function approvedAtEnd($date) 
-    {
-        return $this->builder->where( 'approved_at', '<=', $date );
-    }
-
-    public function suspendedAtStart($date) 
-    {
-        return $this->builder->where( 'suspended_at', '>=', $date );
-    }
-
-    public function suspendedAtEnd($date) 
-    {
-        return $this->builder->where( 'suspended_at', '<=', $date );
     }
 
     public function createdAtStart($date) 
@@ -170,9 +61,36 @@ class AccountQueryFilter extends AbstractQueryFilter
         return $this->builder->where( 'deleted_at', '<=', $date );
     }
 
+    public function domainId($value)
+    {
+        $domain = Domain::where('uuid', $value)->first();
+
+        if($domain) {
+            return $this->builder->where('domain_id', '=', $domain->id);
+        }
+    }
+
+    public function countryId($value)
+    {
+        $country = Country::where('uuid', $value)->first();
+
+        if($country) {
+            return $this->builder->where('country_id', '=', $country->id);
+        }
+    }
+
+    public function currencyId($value)
+    {
+        $currency = Currency::where('uuid', $value)->first();
+
+        if($currency) {
+            return $this->builder->where('currency_id', '=', $currency->id);
+        }
+    }
+
     public function ownerId($value)
     {
-        $owner = Owner::where('id_ref', $value)->first();
+        $owner = Owner::where('uuid', $value)->first();
 
         if($owner) {
             return $this->builder->where('owner_id', '=', $owner->id);
@@ -181,47 +99,12 @@ class AccountQueryFilter extends AbstractQueryFilter
 
     public function accountTypeId($value)
     {
-        $accountType = AccountType::where('id_ref', $value)->first();
+        $accountType = AccountType::where('uuid', $value)->first();
 
         if($accountType) {
             return $this->builder->where('account_type_id', '=', $accountType->id);
         }
     }
 
-    public function accountChannelId($value)
-    {
-        $accountChannel = AccountChannel::where('id_ref', $value)->first();
-
-        if($accountChannel) {
-            return $this->builder->where('account_channel_id', '=', $accountChannel->id);
-        }
-    }
-
-    public function representativeId($value)
-    {
-        $representative = Representative::where('id_ref', $value)->first();
-
-        if($representative) {
-            return $this->builder->where('representative_id', '=', $representative->id);
-        }
-    }
-
-    public function iamServiceId($value)
-    {
-        $iamService = IamService::where('id_ref', $value)->first();
-
-        if($iamService) {
-            return $this->builder->where('iam_service_id', '=', $iamService->id);
-        }
-    }
-
-    public function taxId($value)
-    {
-        $tax = Tax::where('id_ref', $value)->first();
-
-        if($tax) {
-            return $this->builder->where('tax_id', '=', $tax->id);
-        }
-    }
-
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

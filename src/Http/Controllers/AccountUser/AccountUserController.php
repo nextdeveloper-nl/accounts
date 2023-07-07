@@ -1,14 +1,14 @@
 <?php
 
-namespace NextDeveloper\Account\Http\Controllers\AccountUser;
+namespace NextDeveloper\Accounts\Http\Controllers\AccountUser;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Generator\Common\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
-use NextDeveloper\Account\Database\Filters\AccountUserQueryFilter;
-use NextDeveloper\Account\Http\Transformers\AccountUserTransformer;
-use NextDeveloper\Account\Services\AccountUserService;
-use NextDeveloper\Account\Http\Requests\AccountUser\AccountUserCreateRequest;
+use NextDeveloper\Accounts\Http\Requests\AccountUser\AccountUserUpdateRequest;
+use NextDeveloper\Accounts\Database\Filters\AccountUserQueryFilter;
+use NextDeveloper\Accounts\Services\AccountUserService;
+use NextDeveloper\Accounts\Http\Requests\AccountUser\AccountUserCreateRequest;
 
 class AccountUserController extends AbstractController
 {
@@ -36,7 +36,8 @@ class AccountUserController extends AbstractController
     * @throws \Laravel\Octane\Exceptions\DdException
     */
     public function show($ref) {
-        //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file in NextDeveloper Platform Project
+        //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file
+        //  in NextDeveloper Platform Project
         $model = AccountUserService::getByRef($ref);
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -54,4 +55,35 @@ class AccountUserController extends AbstractController
 
         return ResponsableFactory::makeResponse($this, $model);
     }
+
+    /**
+    * This method updates AccountUser object on database.
+    *
+    * @param $accountUserId
+    * @param CountryCreateRequest $request
+    * @return mixed|null
+    * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
+    */
+    public function update($accountUserId, AccountUserUpdateRequest $request) {
+        $model = AccountUserService::update($accountUserId, $request->validated());
+
+        return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    /**
+    * This method updates AccountUser object on database.
+    *
+    * @param $accountUserId
+    * @param CountryCreateRequest $request
+    * @return mixed|null
+    * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
+    */
+    public function destroy($accountUserId) {
+        $model = AccountUserService::delete($accountUserId);
+
+        return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

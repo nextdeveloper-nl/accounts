@@ -1,23 +1,27 @@
 <?php
 
-namespace NextDeveloper\Account\Database\Models;
+namespace NextDeveloper\Accounts\Database\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\Account\Database\Observers\AccountUserObserver;
+use NextDeveloper\Accounts\Database\Observers\AccountUserObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 
 /**
  * Class AccountUser.
  *
- * @package NextDeveloper\Account\Database\Models
+ * @package NextDeveloper\Accounts\Database\Models
  */
 class AccountUser extends Model
 {
     use Filterable, UuidId;
     
+
+    public $timestamps = false;
+
     protected $table = 'account_user';
+
 
     /**
      * @var array
@@ -77,4 +81,11 @@ class AccountUser extends Model
         //  We create and add Observer even if we wont use it.
         parent::observe(AccountUserObserver::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

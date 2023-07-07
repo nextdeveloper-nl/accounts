@@ -1,22 +1,22 @@
 <?php
 
-namespace NextDeveloper\Account\Services\AbstractServices;
+namespace NextDeveloper\Accounts\Services\AbstractServices;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use NextDeveloper\Account\Database\Models\User;
-use NextDeveloper\Account\Database\Filters\UserQueryFilter;
+use NextDeveloper\Accounts\Database\Models\User;
+use NextDeveloper\Accounts\Database\Filters\UserQueryFilter;
 
-use NextDeveloper\Account\Events\User\UserCreatedEvent;
-use NextDeveloper\Account\Events\User\UserCreatingEvent;
+use NextDeveloper\Accounts\Events\User\UserCreatedEvent;
+use NextDeveloper\Accounts\Events\User\UserCreatingEvent;
 
 /**
 * This class is responsible from managing the data for User
 *
 * Class UserService.
 *
-* @package NextDeveloper\Account\Database\Models
+* @package NextDeveloper\Accounts\Database\Models
 */
 class AbstractUserService {
     public static function get(UserQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
@@ -97,9 +97,7 @@ class AbstractUserService {
         event( new UserCreatingEvent() );
 
         try {
-            $model = User::create([
-
-            ]);
+            $model = User::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
@@ -108,4 +106,59 @@ class AbstractUserService {
 
         return $model;
     }
+
+    /**
+    * This method updated the model from an array.
+    *
+    * Throws an exception if stuck with any problem.
+    *
+    * @param
+    * @param array $data
+    * @return mixed
+    * @throw Exception
+    */
+    public static function update($id, array $data) {
+        $model = User::where('uuid', $id)->first();
+
+        event( new UsersUpdateingEvent($model) );
+
+        try {
+           $model = $model->update($data);
+        } catch(\Exception $e) {
+           throw $e;
+        }
+
+        event( new UsersUpdatedEvent($model) );
+
+        return $model;
+    }
+
+    /**
+    * This method updated the model from an array.
+    *
+    * Throws an exception if stuck with any problem.
+    *
+    * @param
+    * @param array $data
+    * @return mixed
+    * @throw Exception
+    */
+    public static function delete($id, array $data) {
+        $model = User::where('uuid', $id)->first();
+
+        event( new UsersDeletingEvent() );
+
+        try {
+            $model = $model->delete();
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+        event( new UsersDeletedEvent($model) );
+
+        return $model;
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

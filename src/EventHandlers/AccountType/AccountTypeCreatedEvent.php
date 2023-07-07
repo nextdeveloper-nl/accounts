@@ -1,6 +1,6 @@
 <?php
 
-namespace NextDeveloper\Account\EventHandlers\AccountType;
+namespace NextDeveloper\Accounts\EventHandlers\AccountType;
 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,4 +17,5 @@ class AccountTypeCreatedEvent implements ShouldQueue
     {
 
     }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

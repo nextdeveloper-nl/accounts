@@ -1,6 +1,6 @@
 <?php
 
-namespace NextDeveloper\Account\Http\Requests\AccountUser;
+namespace NextDeveloper\Accounts\Http\Requests\AccountUser;
 
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
@@ -16,5 +16,5 @@ class AccountUserCreateRequest extends AbstractFormRequest
 			'account_id' => 'required|integer',
         ];
     }
-
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }
