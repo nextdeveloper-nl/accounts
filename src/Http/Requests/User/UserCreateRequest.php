@@ -22,8 +22,8 @@ class UserCreateRequest extends AbstractFormRequest
 			'birthday'    => 'nullable|date',
 			'nin'         => 'nullable|string|max:30',
 			'cell_phone'  => 'nullable|string|max:15',
-			'language_id' => 'integer',
-			'country_id'  => 'integer',
+			'language_id' => 'exists:languages,uuid|uuid',
+			'country_id'  => 'exists:countries,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

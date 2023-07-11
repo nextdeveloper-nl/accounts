@@ -3,23 +3,21 @@
 namespace NextDeveloper\Accounts\Database\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Passport\HasApiTokens;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use NextDeveloper\Commons\Database\Traits\UuidId;
+use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Accounts\Database\Observers\UserObserver;
+use NextDeveloper\Commons\Database\Traits\UuidId;
 
 /**
  * Class User.
  *
  * @package NextDeveloper\Accounts\Database\Models
  */
-class User extends Authenticatable
+class User extends Model
 {
     use Filterable, UuidId;
     use SoftDeletes;
-    use HasApiTokens, Notifiable;
     
 
     public $timestamps = true;
@@ -101,11 +99,6 @@ class User extends Authenticatable
 
         //  We create and add Observer even if we wont use it.
         parent::observe(UserObserver::class);
-    }
-
-    public function accountUser()
-    {
-        return $this->hasMany(AccountUser::class);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
