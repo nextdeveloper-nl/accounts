@@ -14,7 +14,7 @@ class AccountController extends AbstractController
 {
     /**
     * This method returns the list of accounts.
-    *f
+    *
     * optional http params:
     * - paginate: If you set paginate parameter, the result will be returned paginated.
     *

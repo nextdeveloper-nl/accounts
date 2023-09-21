@@ -1,8 +1,8 @@
 <?php
 
-namespace NextDeveloper\Accounts\Services;
+namespace NextDeveloper\IAM\Services;
 
-use NextDeveloper\Accounts\Services\AbstractServices\AbstractAccountService;
+use NextDeveloper\IAM\Services\AbstractServices\AbstractAccountService;
 
 /**
 * This class is responsible from managing the data for Account
@@ -14,4 +14,17 @@ use NextDeveloper\Accounts\Services\AbstractServices\AbstractAccountService;
 class AccountService extends AbstractAccountService {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    public static function createForUser(IamUser $user) : Account
+    {
+        if($user->name == '')
+            $name = 'My personal account';
+
+        $accountData = [
+            'name'      =>  $name,
+            'owner_id'  =>  $user->id
+        ];
+
+        return self::create($accountData);
+    }
 }

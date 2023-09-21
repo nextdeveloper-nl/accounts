@@ -14,7 +14,7 @@ class AccountTypeCreateRequest extends AbstractFormRequest
         return [
             'name'        => 'required|string|max:20',
 			'description' => 'nullable|string|max:255',
-			'country_id'  => 'required|integer',
+			'country_id'  => 'required|exists:countries,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

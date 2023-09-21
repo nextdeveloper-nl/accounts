@@ -14,7 +14,7 @@ class AccountTypeUpdateRequest extends AbstractFormRequest
         return [
             'name'        => 'nullable|string|max:20',
 			'description' => 'nullable|string|max:255',
-			'country_id'  => 'nullable|integer',
+			'country_id'  => 'nullable|exists:countries,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

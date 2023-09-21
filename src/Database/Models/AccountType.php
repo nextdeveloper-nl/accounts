@@ -85,10 +85,5 @@ class AccountType extends Model
         parent::observe(AccountTypeObserver::class);
     }
 
-    public function accounts()
-    {
-        return $this->hasMany(Account::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }
